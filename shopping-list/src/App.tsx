@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { useState, useEffect } from "react";
+import { ItemCard } from "./components/ItemCard";
+import { ListItem } from "./models/ListItem";
+import { Header } from "./components/Header";
 
-function App() {
-  const [count, setCount] = useState(0)
+export const App = () => {
+  const [shoppingItems, setShoppingItems] = useState<ListItem[]>();
+
+  useEffect(() => {
+    fetch(import.meta.env.VITE_API_ROOT)
+      .then((res) => res.json())
+      .then((data: ListItem[]) => setShoppingItems(data))
+      .catch((err) => console.error(err.message));
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header />
+      <main>
+        <div
+          style={{
+            border: "1px solid #00a8e8",
+            padding: "1rem",
+            borderRadius: "5%",
+          }}
+        >
+          <div className="content">
+            {shoppingItems?.map((item, idx) => {
+              return (
+                <ItemCard
+                  key={idx}
+                  item={item.item}
+                  id={item.id}
+                  isPickedUp={item.isPickedUp}
+                />
+              );
+            })}
+          </div>
+        </div>
+      </main>
     </>
-  )
-}
-
-export default App
+  );
+};
