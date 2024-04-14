@@ -48,6 +48,12 @@ dotnet run
 cd shopping-list
 ```
 
+- Create .env file with the following variables
+
+```plaintext
+VITE_API_ROOT=http://localhost:5224/api/ShoppingList
+```
+
 - Install npm packages
 
 ```sh
