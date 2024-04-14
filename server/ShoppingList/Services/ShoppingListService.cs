@@ -54,7 +54,7 @@ public class ShoppingListService : IShoppingListService
             throw new NotFoundException($"item with id {id} not found");
         }
 
-        item.IsPickedUp = true;
+        item.IsPickedUp = !item.IsPickedUp;
 
         _repository.UpdateItem(item);
         await _repository.SaveChanges();
