@@ -60,6 +60,8 @@ export const App = () => {
           style={{
             padding: "0.6em 1.2em",
             borderRadius: "8px",
+            width: "fit-content",
+            alignSelf: "center",
           }}
           onClick={handleIsOpen}
         >

@@ -9,6 +9,8 @@
 .main {
   margin-top: 5rem;
   height: calc(100vh - 10rem);
+  display: flex;
+  flex-direction: column;
 }
 
 .items-container {
