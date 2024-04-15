@@ -1,5 +1,6 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using ShoppingList.Dtos;
 using ShoppingList.Entities;
 using ShoppingList.Exceptions;
 using ShoppingList.Services;
@@ -25,7 +26,7 @@ public class ShoppingListController : ControllerBase
     [HttpGet]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult<ShoppingListItem>> GetAll()
+    public async Task<ActionResult<ShoppingListItemDto>> GetAll()
     {
         _logger.LogInformation("Getting all the items");
         try
@@ -44,7 +45,7 @@ public class ShoppingListController : ControllerBase
     [HttpGet("{itemId:Guid}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult<ShoppingListItem>> Get(Guid itemId)
+    public async Task<ActionResult<ShoppingListItemDto>> Get(Guid itemId)
     {
         _logger.LogInformation("Getting item={itemId}", itemId);
         try
@@ -63,7 +64,7 @@ public class ShoppingListController : ControllerBase
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.Created)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
-    public async Task<ActionResult<ShoppingListItem>> Post(ShoppingListItem shoppingListItem)
+    public async Task<ActionResult<ShoppingListItemDto>> Post(ShoppingListItemDto shoppingListItem)
     {
         _logger.LogInformation("Adding new item");
         try
