@@ -1,3 +1,5 @@
+using AutoMapper;
+using ShoppingList.Dtos;
 using ShoppingList.Entities;
 using ShoppingList.Exceptions;
 using ShoppingList.Repositories;
@@ -7,13 +9,18 @@ namespace ShoppingList.Services;
 public class ShoppingListService : IShoppingListService
 {
     private readonly IShoppingListRepository _repository;
+    private readonly IMapper _mapper;
 
-    public ShoppingListService(IShoppingListRepository repository)
+    public ShoppingListService(
+        IShoppingListRepository repository,
+        IMapper mapper
+    )
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
-    public async Task<List<ShoppingListItem>> GetItems()
+    public async Task<List<ShoppingListItemDto>> GetItems()
     {
         var items = await _repository.GetItems();
 
@@ -22,10 +29,10 @@ public class ShoppingListService : IShoppingListService
             throw new NotFoundException("there are no items in the database");
         }
 
-        return items;
+        return _mapper.Map<List<ShoppingListItemDto>>(items);
     }
 
-    public async Task<ShoppingListItem> GetItem(Guid id)
+    public async Task<ShoppingListItemDto> GetItem(Guid id)
     {
         var item = await _repository.GetItem(id);
 
@@ -34,15 +41,17 @@ public class ShoppingListService : IShoppingListService
             throw new NotFoundException($"item with id {id} not found");
         }
 
-        return item;
+        return _mapper.Map<ShoppingListItemDto>(item);
     }
 
-    public async Task<ShoppingListItem> AddItem(ShoppingListItem item)
+    public async Task<ShoppingListItemDto> AddItem(ShoppingListItemDto itemDto)
     {
+        var item = _mapper.Map<ShoppingListItem>(itemDto);
+
         var created = await _repository.AddItem(item);
         await _repository.SaveChanges();
 
-        return created;
+        return _mapper.Map<ShoppingListItemDto>(created);
     }
 
     public async Task MarkAsPicked(Guid id)

@@ -1,11 +1,11 @@
-using ShoppingList.Entities;
+using ShoppingList.Dtos;
 
 namespace ShoppingList.Services;
 
 public interface IShoppingListService
 {
-    Task<List<ShoppingListItem>> GetItems();
-    Task<ShoppingListItem> GetItem(Guid id);
-    Task<ShoppingListItem> AddItem(ShoppingListItem item);
+    Task<List<ShoppingListItemDto>> GetItems();
+    Task<ShoppingListItemDto> GetItem(Guid id);
+    Task<ShoppingListItemDto> AddItem(ShoppingListItemDto itemDto);
     Task MarkAsPicked(Guid id);
 }
