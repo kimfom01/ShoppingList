@@ -10,6 +10,8 @@ export const App = () => {
   const [shoppingItems, setShoppingItems] = useState<ListItem[]>();
   const [newFormModal, setNewFormModal] = useState<boolean>(false);
   const [added, setAdded] = useState<boolean>(false);
+  const [completed, setCompleted] = useState<boolean>(false);
+  const [deleted, setDeleted] = useState<boolean>(false);
 
   const handleIsOpen = () => {
     setNewFormModal(true);
@@ -24,7 +26,7 @@ export const App = () => {
       .then((res) => res.json())
       .then((data: ListItem[]) => setShoppingItems(data))
       .catch((err) => console.error(err.message));
-  }, [added, newFormModal]);
+  }, [added, newFormModal, completed, deleted]);
 
   const submitNewItem = (data: ListItem) => {
     fetch(import.meta.env.VITE_API_ROOT, {
@@ -69,9 +71,11 @@ export const App = () => {
               return (
                 <ItemCard
                   key={idx}
-                  item={item.item}
-                  id={item.id}
-                  isPickedUp={item.isPickedUp}
+                  item={item}
+                  setDeleted={setDeleted}
+                  deleted={deleted}
+                  setCompleted={setCompleted}
+                  completed={completed}
                 />
               );
             })}

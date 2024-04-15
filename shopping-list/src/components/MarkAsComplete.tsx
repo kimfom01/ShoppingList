@@ -1,19 +1,19 @@
 import { Button } from "./Button";
 
 interface Prop {
-  setPicked: React.Dispatch<React.SetStateAction<boolean>>;
-  picked: boolean;
+  setCompleted: React.Dispatch<React.SetStateAction<boolean>>;
+  completed: boolean;
   itemId: string;
 }
 
-export const MarkAsComplete = ({ setPicked, picked, itemId }: Prop) => {
+export const MarkAsComplete = ({ setCompleted, completed, itemId }: Prop) => {
   const handleClick = () => {
     fetch(`${import.meta.env.VITE_API_ROOT}/${itemId}`, {
       method: "patch",
     })
       .then((res) => {
         if (res.status === 204) {
-          setPicked(!picked);
+          setCompleted(!completed);
         }
       })
       .catch((err) => console.error(err.message));

@@ -54,6 +54,19 @@ public class ShoppingListService : IShoppingListService
         return _mapper.Map<ShoppingListItemDto>(created);
     }
 
+    public async Task DeleteItem(Guid id)
+    {
+        var item = await _repository.GetItem(id);
+
+        if (item is null)
+        {
+            throw new NotFoundException($"item with id {id} not found");
+        }
+
+        _repository.DeleteItem(item);
+        await _repository.SaveChanges();
+    }
+
     public async Task MarkAsPicked(Guid id)
     {
         var item = await _repository.GetItem(id);

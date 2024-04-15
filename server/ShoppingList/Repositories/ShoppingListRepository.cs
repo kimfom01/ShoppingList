@@ -39,6 +39,11 @@ public class ShoppingListRepository : IShoppingListRepository
         _dbContext.ShoppingListItems.Update(item);
     }
 
+    public void DeleteItem(ShoppingListItem item)
+    {
+        _dbContext.ShoppingListItems.Remove(item);
+    }
+
     public async Task<int> SaveChanges()
     {
         return await _dbContext.SaveChangesAsync();

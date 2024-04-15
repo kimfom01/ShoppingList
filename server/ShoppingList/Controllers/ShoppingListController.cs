@@ -80,6 +80,25 @@ public class ShoppingListController : ControllerBase
         }
     }
 
+    [HttpDelete("{itemId:Guid}")]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<IActionResult> Delete(Guid itemId)
+    {
+        _logger.LogInformation("Deleting item={itemId}", itemId);
+        try
+        {
+            await _shoppingListService.DeleteItem(itemId);
+
+            return NoContent();
+        }
+        catch (NotFoundException exception)
+        {
+            _logger.LogError("An error occured: {exception}", exception);
+            return NotFound(exception.Message);
+        }
+    }
+
     [HttpPatch("{itemId:Guid}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]

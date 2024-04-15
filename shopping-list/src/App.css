@@ -9,6 +9,7 @@ div.content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 19rem;
 }
 
 @media (max-width: 430px) {

@@ -1,15 +1,26 @@
 import { ListItem } from "../models/ListItem";
 import { Delete } from "./Delete";
 import { MarkAsComplete } from "./MarkAsComplete";
-import { useState } from "react";
 
-export const ItemCard = ({ item, isPickedUp, id }: ListItem) => {
-  const [picked, setPicked] = useState<boolean>(false);
+interface Prop {
+  item: ListItem;
+  setDeleted: React.Dispatch<React.SetStateAction<boolean>>;
+  deleted: boolean;
+  setCompleted: React.Dispatch<React.SetStateAction<boolean>>;
+  completed: boolean;
+}
 
+export const ItemCard = ({
+  item,
+  setDeleted,
+  deleted,
+  setCompleted,
+  completed,
+}: Prop) => {
   return (
     <div
       style={{
-        width: "18rem",
+        width: "95%",
         height: "2rem",
         backgroundColor: "#007ea7",
         marginTop: "1rem",
@@ -26,18 +37,22 @@ export const ItemCard = ({ item, isPickedUp, id }: ListItem) => {
       >
         <div
           style={{
-            textDecoration: picked || isPickedUp ? "line-through" : "",
+            textDecoration: item.isPickedUp ? "line-through" : "",
           }}
         >
-          {item}
+          {item.item}
         </div>
         <div style={{ display: "flex", gap: "1rem" }}>
           <MarkAsComplete
-            setPicked={setPicked}
-            picked={picked}
-            itemId={id ?? ""}
+            setCompleted={setCompleted}
+            completed={completed}
+            itemId={item.id ?? ""}
           />
-          <Delete />
+          <Delete
+            setDeleted={setDeleted}
+            itemId={item.id ?? ""}
+            deleted={deleted}
+          />
         </div>
       </div>
     </div>
