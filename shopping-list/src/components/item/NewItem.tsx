@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { ListItem } from "../models/ListItem";
-import { Modal } from "./Modal";
-import { Button } from "./Button";
+import { ListItem } from "../../models/ListItem";
+import { Modal } from "../modal/Modal";
+import { Button } from "../utils/Button";
 
 interface AddNewItemProps {
   isOpen: boolean;

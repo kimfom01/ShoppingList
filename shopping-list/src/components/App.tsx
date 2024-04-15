@@ -1,10 +1,10 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-import { ItemCard } from "./components/ItemCard";
-import { ListItem } from "./models/ListItem";
-import { Header } from "./components/Header";
-import { Button } from "./components/Button";
-import { NewItem } from "./components/NewItem";
+import { ItemCard } from "./item/ItemCard";
+import { ListItem } from "../models/ListItem";
+import { Header } from "./utils/Header";
+import { Button } from "./utils/Button";
+import { NewItem } from "./item/NewItem";
 
 export const App = () => {
   const [shoppingItems, setShoppingItems] = useState<ListItem[]>();

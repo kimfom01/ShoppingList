@@ -1,4 +1,4 @@
-import { Button } from "./Button";
+import { Button } from "../utils/Button";
 
 interface Prop {
   setDeleted: React.Dispatch<React.SetStateAction<boolean>>;

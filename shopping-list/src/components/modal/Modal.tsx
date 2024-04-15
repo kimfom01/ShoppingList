@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Button } from "./Button";
+import { Button } from "../utils/Button";
 import "./modal.css";
 
 interface Props {
