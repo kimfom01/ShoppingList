@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ListItem } from "../../models/ListItem";
 import { Modal } from "../modal/Modal";
 import { Button } from "../utils/Button";
+import "./newItem.css";
 
 interface AddNewItemProps {
   isOpen: boolean;
@@ -37,6 +38,7 @@ export const NewItem = ({ isOpen, onSubmit, onClose }: AddNewItemProps) => {
   return (
     <Modal isOpened={isOpen} onClose={onClose} hasCloseBtn={true}>
       <form method="post" onSubmit={handleSumit}>
+        <h3>Enter new item</h3>
         <input
           id="item"
           value={formState?.item}
@@ -45,8 +47,17 @@ export const NewItem = ({ isOpen, onSubmit, onClose }: AddNewItemProps) => {
           name="item"
           required
           placeholder="Enter your input"
+          className="input-style"
         />
-        <Button type="submit">Add</Button>
+        <Button
+          style={{
+            padding: "0.6em 1.2em",
+            borderRadius: "8px",
+          }}
+          type="submit"
+        >
+          Add
+        </Button>
       </form>
     </Modal>
   );

@@ -57,6 +57,8 @@ export const Modal = ({
             position: "absolute",
             top: "0.25em",
             right: "0.25em",
+            padding: "0.6em 1.2em",
+            borderRadius: "8px",
           }}
           onClick={handleModalClose}
         >
