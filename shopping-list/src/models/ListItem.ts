@@ -1,5 +1,5 @@
 export interface ListItem {
-  id: string;
+  id?: string;
   isPickedUp: boolean;
   item: string;
 }
