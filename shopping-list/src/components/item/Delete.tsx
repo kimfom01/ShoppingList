@@ -22,5 +22,18 @@ export const Delete = ({ itemId, setDeleted, deleted }: Prop) => {
       })
       .catch((err) => console.error(err.message));
   };
-  return <Button onClick={handleClick}>❌</Button>;
+  return (
+    <Button
+      style={{
+        padding: "0.3rem",
+        paddingRight: "0.8rem",
+        paddingLeft: "0.8rem",
+        backgroundColor: "inherit",
+        borderRadius: "8px",
+      }}
+      onClick={handleClick}
+    >
+      ❌
+    </Button>
+  );
 };

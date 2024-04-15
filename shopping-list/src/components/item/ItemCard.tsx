@@ -1,6 +1,7 @@
 import { ListItem } from "../../models/ListItem";
 import { Delete } from "./Delete";
 import { MarkAsComplete } from "./MarkAsComplete";
+import "./itemCard.css";
 
 interface Prop {
   item: ListItem;
@@ -17,24 +18,16 @@ export const ItemCard = ({
   setCompleted,
   completed,
 }: Prop) => {
+  const greyColor = "#808080";
+
   return (
     <div
+      className="item-card"
       style={{
-        width: "95%",
-        height: "2rem",
-        backgroundColor: "#007ea7",
-        marginTop: "1rem",
-        borderRadius: "15px",
-        padding: "10px",
-        paddingBottom: 0,
+        backgroundColor: item.isPickedUp ? greyColor : "",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className="flex-space">
         <div
           style={{
             textDecoration: item.isPickedUp ? "line-through" : "",

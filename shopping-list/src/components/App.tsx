@@ -49,23 +49,23 @@ export const App = () => {
 
   return (
     <>
-      <Header />
-      <main style={{ marginTop: "5rem", height: "calc(100vh - 10rem)" }}>
+      <main className="main">
+        <Header />
         <NewItem
           onSubmit={submitNewItem}
           isOpen={newFormModal}
           onClose={handleModalClose}
         />
-        <Button onClick={handleIsOpen}>Add New Item</Button>
-        <div
+        <Button
           style={{
-            border: "1px solid #00a8e8",
-            padding: "1rem",
-            borderRadius: "5%",
-            height: "80%",
-            overflow: "scroll",
+            padding: "0.6em 1.2em",
+            borderRadius: "8px",
           }}
+          onClick={handleIsOpen}
         >
+          Add New Item
+        </Button>
+        <div className="items-container">
           <div className="content">
             {shoppingItems?.map((item, idx) => {
               return (
