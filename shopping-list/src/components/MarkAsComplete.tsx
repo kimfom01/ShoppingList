@@ -19,5 +19,5 @@ export const MarkAsComplete = ({ setPicked, picked, itemId }: Prop) => {
       .catch((err) => console.error(err.message));
   };
 
-  return <Button onClick={handleClick} icon={"✅"} />;
+  return <Button onClick={handleClick}>✅</Button>;
 };
