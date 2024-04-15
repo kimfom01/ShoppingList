@@ -1,5 +1,9 @@
 import "./header.css";
 
 export const Header = () => {
-  return <h1 className="header">Shopping List</h1>;
+  return (
+    <header className="header">
+      <h1>Shopping List</h1>
+    </header>
+  );
 };
