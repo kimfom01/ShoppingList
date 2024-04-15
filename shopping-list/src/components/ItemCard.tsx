@@ -32,7 +32,11 @@ export const ItemCard = ({ item, isPickedUp, id }: ListItem) => {
           {item}
         </div>
         <div style={{ display: "flex", gap: "1rem" }}>
-          <MarkAsComplete setPicked={setPicked} picked={picked} itemId={id} />
+          <MarkAsComplete
+            setPicked={setPicked}
+            picked={picked}
+            itemId={id ?? ""}
+          />
           <Delete />
         </div>
       </div>
