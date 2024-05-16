@@ -1,17 +1,54 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ItemCard } from "./item/ItemCard";
 import { ListItem } from "../models/ListItem";
 import { Header } from "./utils/Header";
 import { Button } from "./utils/Button";
 import { NewItem } from "./item/NewItem";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const App = () => {
-  const [shoppingItems, setShoppingItems] = useState<ListItem[]>();
   const [newFormModal, setNewFormModal] = useState<boolean>(false);
-  const [added, setAdded] = useState<boolean>(false);
-  const [completed, setCompleted] = useState<boolean>(false);
-  const [deleted, setDeleted] = useState<boolean>(false);
+
+  const queryClient = useQueryClient();
+
+  const {
+    data: shoppingItems,
+    isLoading,
+    error: fetchError,
+  } = useQuery({
+    queryFn: () => fetchItems(),
+    queryKey: ["shoppingItems"],
+  });
+
+  const fetchItems = async () => {
+    const items: ListItem[] = await fetch(import.meta.env.VITE_API_ROOT).then(
+      (res) => res.json()
+    );
+
+    return items;
+  };
+
+  const submitNewItem = (data: ListItem) => {
+    return fetch(import.meta.env.VITE_API_ROOT, {
+      method: "post",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      if (res.status == 204) {
+        handleModalClose();
+      }
+    });
+  };
+
+  const { mutateAsync: addItemMutation } = useMutation({
+    mutationFn: submitNewItem,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["shoppingItems"] });
+    },
+  });
 
   const handleIsOpen = () => {
     setNewFormModal(true);
@@ -21,69 +58,40 @@ export const App = () => {
     setNewFormModal(false);
   };
 
-  useEffect(() => {
-    fetch(import.meta.env.VITE_API_ROOT)
-      .then((res) => res.json())
-      .then((data: ListItem[]) => setShoppingItems(data))
-      .catch((err) => console.error(err.message));
-  }, [added, newFormModal, completed, deleted]);
+  if (isLoading) {
+    return <>Loading...</>;
+  }
 
-  const submitNewItem = (data: ListItem) => {
-    fetch(import.meta.env.VITE_API_ROOT, {
-      method: "post",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.status == 204) {
-          setAdded(true);
-          handleModalClose();
-        } else {
-          setAdded(false);
-        }
-      })
-      .catch((err) => console.error(err));
-  };
+  if (fetchError) {
+    return <>Error fetching shopping items. Please reload the page</>;
+  }
 
   return (
-    <>
-      <main className="main">
-        <Header />
-        <NewItem
-          onSubmit={submitNewItem}
-          isOpen={newFormModal}
-          onClose={handleModalClose}
-        />
-        <Button
-          style={{
-            padding: "0.6em 1.2em",
-            borderRadius: "8px",
-            width: "fit-content",
-            alignSelf: "center",
-          }}
-          onClick={handleIsOpen}
-        >
-          Add New Item
-        </Button>
-        <div className="items-container">
-          <div className="content">
-            {shoppingItems?.map((item, idx) => {
-              return (
-                <ItemCard
-                  key={idx}
-                  item={item}
-                  setDeleted={setDeleted}
-                  deleted={deleted}
-                  setCompleted={setCompleted}
-                  completed={completed}
-                />
-              );
-            })}
-          </div>
+    <main className="main">
+      <Header />
+      <NewItem
+        onSubmit={addItemMutation}
+        isOpen={newFormModal}
+        onClose={handleModalClose}
+      />
+      <Button
+        style={{
+          padding: "0.6em 1.2em",
+          borderRadius: "8px",
+          width: "fit-content",
+          alignSelf: "center",
+        }}
+        onClick={handleIsOpen}
+      >
+        Add New Item
+      </Button>
+      <div className="items-container">
+        <div className="content">
+          {shoppingItems?.map((item) => {
+            return <ItemCard key={item.id} item={item} />;
+          })}
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 };

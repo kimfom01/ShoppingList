@@ -1,23 +1,25 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "../utils/Button";
 
 interface Prop {
-  setCompleted: React.Dispatch<React.SetStateAction<boolean>>;
-  completed: boolean;
   itemId: string;
 }
 
-export const MarkAsComplete = ({ setCompleted, completed, itemId }: Prop) => {
+export const MarkAsComplete = ({ itemId }: Prop) => {
+  const queryClient = useQueryClient();
+
   const handleClick = () => {
-    fetch(`${import.meta.env.VITE_API_ROOT}/${itemId}`, {
+    return fetch(`${import.meta.env.VITE_API_ROOT}/${itemId}`, {
       method: "patch",
-    })
-      .then((res) => {
-        if (res.status === 204) {
-          setCompleted(!completed);
-        }
-      })
-      .catch((err) => console.error(err.message));
+    });
   };
+
+  const { mutateAsync: markAsCompleteMutation } = useMutation({
+    mutationFn: handleClick,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["shoppingItems"] });
+    },
+  });
 
   return (
     <Button
@@ -28,7 +30,7 @@ export const MarkAsComplete = ({ setCompleted, completed, itemId }: Prop) => {
         backgroundColor: "inherit",
         borderRadius: "8px",
       }}
-      onClick={handleClick}
+      onClick={markAsCompleteMutation}
     >
       ✅
     </Button>

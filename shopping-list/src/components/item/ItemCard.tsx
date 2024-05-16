@@ -5,19 +5,9 @@ import "./itemCard.css";
 
 interface Prop {
   item: ListItem;
-  setDeleted: React.Dispatch<React.SetStateAction<boolean>>;
-  deleted: boolean;
-  setCompleted: React.Dispatch<React.SetStateAction<boolean>>;
-  completed: boolean;
 }
 
-export const ItemCard = ({
-  item,
-  setDeleted,
-  deleted,
-  setCompleted,
-  completed,
-}: Prop) => {
+export const ItemCard = ({ item }: Prop) => {
   const greyColor = "#808080";
 
   return (
@@ -36,16 +26,8 @@ export const ItemCard = ({
           {item.item}
         </div>
         <div style={{ display: "flex", gap: "1rem" }}>
-          <MarkAsComplete
-            setCompleted={setCompleted}
-            completed={completed}
-            itemId={item.id ?? ""}
-          />
-          <Delete
-            setDeleted={setDeleted}
-            itemId={item.id ?? ""}
-            deleted={deleted}
-          />
+          <MarkAsComplete itemId={item.id ?? ""} />
+          <Delete itemId={item.id ?? ""} />
         </div>
       </div>
     </div>
